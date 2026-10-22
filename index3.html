@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make a Wish & Blow the Candle! 🎂</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #2b1055, #7597de);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Screen Shake Effect for Boom */
+        @keyframes screenShake {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            20% { transform: translate(-10px, 10px) rotate(-1deg); }
+            40% { transform: translate(10px, -10px) rotate(1deg); }
+            60% { transform: translate(-5px, 5px) rotate(0deg); }
+            80% { transform: translate(5px, -5px) rotate(-1deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        .shake-screen {
+            animation: screenShake 0.5s ease-in-out;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Headings */
+        h1 {
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .subtext {
+            color: #ffd3b6;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            font-weight: 500;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.2);
+            min-height: 30px;
+        }
+
+        /* Big & Beautiful Cake Styling */
+        .cake-wrapper {
+            position: relative;
+            width: 240px;
+            height: 200px;
+            margin-top: 20px;
+        }
+
+        .cake-base {
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            width: 200px;
+            height: 110px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%);
+            border-radius: 15px 15px 25px 25px;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+            border-bottom: 8px solid #ff6f91;
+        }
+
+        /* Cake Cream Frosting Layers */
+        .frosting {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 35px;
+            background: #fff;
+            border-radius: 15px 15px 10px 10px;
+            box-shadow: inset 0 -4px 10px rgba(0,0,0,0.05);
+        }
+
+        .frosting-drip {
+            position: absolute;
+            top: 30px;
+            width: 25px;
+            height: 35px;
+            background: #fff;
+            border-radius: 0 0 15px 15px;
+        }
+
+        /* Cake Candle */
+        .candle {
+            position: absolute;
+            bottom: 110px;
+            left: 110px;
+            width: 20px;
+            height: 55px;
+            background: repeating-linear-gradient(45deg, #ff3366, #ff3366 10px, #ffffff 10px, #ffffff 20px);
+            border-radius: 4px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Flame & Smoke */
+        .flame {
+            position: absolute;
+            top: -28px;
+            left: 2px;
+            width: 16px;
+            height: 26px;
+            background: radial-gradient(circle, #ffeb3b 0%, #ff9800 70%, #ff5722 100%);
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 0 15px #ffeb3b, 0 0 30px #ff9800;
+            animation: flicker 0.6s infinite alternate ease-in-out;
+            transform-origin: bottom center;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-3deg); opacity: 0.9; }
+            100% { transform: scale(1.15) rotate(3deg); opacity: 1; }
+        }
+
+        .flame.extinguished {
+            display: none;
+        }
+
+        /* Smoke Effect */
+        .smoke {
+            position: absolute;
+            top: -40px;
+            left: 5px;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            filter: blur(4px);
+            opacity: 0;
+        }
+
+        .smoke.active {
+            animation: riseSmoke 1.5s forwards ease-out;
+        }
+
+        @keyframes riseSmoke {
+            0% { transform: translateY(0) scale(0.5); opacity: 0.8; }
+            100% { transform: translateY(-50px) scale(2.5); opacity: 0; }
+        }
+
+        /* Confetti Canvas */
+        #confettiCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confettiCanvas"></canvas>
+
+    <div class="container" id="mainContainer">
+        <!-- Text Sections -->
+        <h1 id="mainTitle">Make a wish & blow... ✨🎂</h1>
+        <div class="subtext" id="subText">Get ready... 5</div>
+
+        <!-- Big Beautiful Cake with Candle -->
+        <div class="cake-wrapper">
+            <div class="cake-base">
+                <div class="frosting"></div>
+                <div class="frosting-drip" style="left: 15px;"></div>
+                <div class="frosting-drip" style="left: 65px; height: 45px;"></div>
+                <div class="frosting-drip" style="left: 120px;"></div>
+                <div class="frosting-drip" style="left: 160px; height: 30px;"></div>
+            </div>
+            <div class="candle">
+                <div class="flame" id="cakeFlame"></div>
+                <div class="smoke" id="smokeEffect"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti Library for Grand Explosion -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        // Automatic Happy Birthday Audio Tune generator using Web Audio API
+        function playBirthdayTune() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioContext();
+
+                // Simple Happy Birthday notes frequency
+                const notes = [
+                    { freq: 261.63, duration: 0.3 }, { freq: 261.63, duration: 0.3 }, { freq: 293.66, duration: 0.6 }, { freq: 261.63, duration: 0.6 }, { freq: 349.23, duration: 0.6 }, { freq: 329.63, duration: 1.2 },
+                    { freq: 261.63, duration: 0.3 }, { freq: 261.63, duration: 0.3 }, { freq: 293.66, duration: 0.6 }, { freq: 261.63, duration: 0.6 }, { freq: 392.00, duration: 0.6 }, { freq: 349.23, duration: 1.2 }
+                ];
+
+                let time = ctx.currentTime + 0.2;
+                notes.forEach(note => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.value = note.freq;
+
+                    gain.gain.setValueAtTime(0.15, time);
+                    gain.gain.exponentialRampToValueAtTime(0.001, time + note.duration - 0.05);
+
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc.start(time);
+                    osc.stop(time + note.duration);
+                    time += note.duration + 0.05;
+                });
+            } catch (e) {
+                console.log("Audio autoplay prevented by browser");
+            }
+        }
+
+        // Timer and Automatic Animation Sequence
+        let timeLeft = 5;
+        const subText = document.getElementById("subText");
+        const mainTitle = document.getElementById("mainTitle");
+        const cakeFlame = document.getElementById("cakeFlame");
+        const smokeEffect = document.getElementById("smokeEffect");
+        const mainContainer = document.getElementById("mainContainer");
+
+        // Start background tune automatically on load
+        window.addEventListener('load', () => {
+            playBirthdayTune();
+        });
+
+        const timerInterval = setInterval(() => {
+            timeLeft--;
+            if (timeLeft > 0) {
+                subText.innerText = `Get ready... ${timeLeft}`;
+            } else if (timeLeft === 0) {
+                subText.innerText = "Get ready... 0";
+            } else {
+                clearInterval(timerInterval);
+                triggerPartyBoom();
+            }
+        }, 1000);
+
+        function triggerPartyBoom() {
+            // Extinguish flame and show smoke
+            cakeFlame.classList.add("extinguished");
+            smokeEffect.classList.add("active");
+
+            // Screen Shake Effect
+            mainContainer.classList.add("shake-screen");
+
+            // Update Text to Final Celebration Message
+            mainTitle.innerText = "Happy Birthday! 🎉";
+            subText.innerText = "May all your dreams come true! 🥳💖";
+
+            // Grand Confetti Blast
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 7,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 }
+                });
+                confetti({
+                    particleCount: 7,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 }
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+
+            // Automatic redirect to next page after celebration (e.g., after 4 seconds)
+            setTimeout(() => {
+                window.location.href = "index4.html";
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
