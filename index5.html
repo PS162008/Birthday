@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystery Birthday Gifts 🎁</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3, #ff9a9e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background Floating Hearts Effect */
+        .hearts-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -20px;
+            background-color: rgba(255, 255, 255, 0.5);
+            transform: rotate(-45deg);
+            animation: floatUp linear infinite;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: inherit;
+            border-radius: 50%;
+        }
+
+        .heart::before { top: -50%; left: 0; }
+        .heart::after { top: 0; left: 50%; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(-45deg) scale(0.6); opacity: 0; }
+            20% { opacity: 0.7; }
+            100% { transform: translateY(-105vh) rotate(-45deg) scale(1.2); opacity: 0; }
+        }
+
+        /* Main Hub View */
+        .hub-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 35px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Boxes Grid - Larger Size */
+        .boxes-grid {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* Large Gift Box Styling */
+        .gift-box {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            padding: 20px 10px;
+            width: 125px;
+            height: 145px;
+            cursor: pointer;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            animation: gentleJump 2s infinite ease-in-out;
+        }
+
+        .gift-box:nth-child(2) { animation-delay: 0.3s; }
+        .gift-box:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes gentleJump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .gift-box:hover {
+            transform: scale(1.08) translateY(-5px);
+            border-color: #fff;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Proper Gift Box Graphic with Ribbon */
+        .box-graphic {
+            width: 65px;
+            height: 55px;
+            background: #ff4757;
+            border-radius: 6px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .box-graphic::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 100%;
+            background: #ffa502;
+        }
+
+        .box-graphic::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 14px;
+            background: #ffa502;
+        }
+
+        .box-lid {
+            position: absolute;
+            top: -8px;
+            left: -4px;
+            width: 73px;
+            height: 14px;
+            background: #ff6b81;
+            border-radius: 4px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
+
+        .accept-btn {
+            background: #fff;
+            color: #ff4757;
+            border: none;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .gift-box:hover .accept-btn {
+            background: #ff4757;
+            color: #fff;
+        }
+
+        /* Opened / Completed Box State */
+        .gift-box.opened {
+            background: rgba(46, 204, 113, 0.3);
+            border-color: #2ecc71;
+            animation: none;
+        }
+
+        .gift-box.opened .box-graphic {
+            opacity: 0.8;
+        }
+
+        .gift-box.opened .accept-btn {
+            background: #2ecc71;
+            color: #fff;
+        }
+
+        /* Full Screen Overlay / Gift Viewer Modal */
+        .gift-modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .gift-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Ribbon Untying & Opening Animation Overlay */
+        .unboxing-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 105, 180, 0.95);
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.5s ease;
+        }
+
+        .unboxing-overlay.hide {
+            transform: scale(1.5);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .ribbon-knot {
+            font-size: 4rem;
+            animation: untieRibbon 1s infinite alternate ease-in-out;
+        }
+
+        @keyframes untieRibbon {
+            0% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(15deg) scale(1.2); }
+        }
+
+        .unboxing-text {
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 15px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Gift 1: Fullscreen Video Container */
+        .fullscreen-video-container {
+            width: 100%;
+            max-width: 400px;
+            height: 70vh;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        .fullscreen-video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Gift 2: Square Photo + Virat Shayari */
+        .photo-gift-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            animation: popUp 0.4s ease;
+        }
+
+        @keyframes popUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .photo-square {
+            width: 100%;
+            height: 220px;
+            border-radius: 14px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .shayari-text {
+            font-family: 'Caveat', cursive;
+            font-size: 1.45rem;
+            color: #d63384;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        /* Gift 3: Virtual Hug Video (~30% screen size) */
+        .hug-gift-container {
+            background: rgba(255, 182, 193, 0.25);
+            backdrop-filter: blur(12px);
+            border: 2px dashed #fff;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 320px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .hug-title {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hug-video-box {
+            width: 100%;
+            height: 180px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            margin-bottom: 15px;
+        }
+
+        .hug-video-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Close / Back to Hub Button */
+        .close-gift-btn {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+            margin-top: 15px;
+        }
+
+        /* Final Next Page Button (Appears when all 3 opened) */
+        .final-next-btn {
+            display: none;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4);
+            margin-top: 30px;
+            animation: pulseBtn 1.5s infinite;
+        }
+
+        @keyframes pulseBtn {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .final-next-btn.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Floating Hearts -->
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <div class="hub-container">
+        <h1>I have gifts for you.....🎁</h1>
+
+        <!-- 3 Mystery Boxes Hub -->
+        <div class="boxes-grid">
+            <div class="gift-box" id="box1" onclick="openGift(1)">
+                <div class="box-graphic">
+                    <div class="box-lid"></div>
+                </div>
+                <button class="accept-btn">Accept it</button>
+            </div>
+            <div class="gift-box" id="box2" onclick="openGift(2)">
+                <div class="box-graphic">
+                    <div class="box-lid"></div>
+                </div>
+                <button class="accept-btn">Accept it</button>
+            </div>
+            <div class="gift-box" id="box3" onclick="openGift(3)">
+                <div class="box-graphic">
+                    <div class="box-lid"></div>
+                </div>
+                <button class="accept-btn">Accept it</button>
+            </div>
+        </div>
+
+        <!-- Final Next Page Button after opening all gifts -->
+        <button class="final-next-btn" id="finalNextBtn" onclick="goToNextPage()">Final Surprise ➡️</button>
+    </div>
+
+    <!-- Gift Modal View Overlay -->
+    <div class="gift-modal" id="giftModal">
+        <!-- Ribbon Untying & Opening Animation Overlay -->
+        <div class="unboxing-overlay" id="unboxingOverlay">
+            <div class="ribbon-knot">🎀</div>
+            <div class="unboxing-text">Untying Ribbon & Opening Gift... ✨</div>
+        </div>
+
+        <!-- Gift 1 Content -->
+        <div id="gift1Content" style="display:none; width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="fullscreen-video-container">
+                <video id="videoGift1" controls playsinline>
+                    <source src="Raju.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <button class="close-gift-btn" onclick="closeGiftModal(1)">Close & Back ❌</button>
+        </div>
+
+        <!-- Gift 2 Content -->
+        <div id="gift2Content" style="display:none; width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="photo-gift-box">
+                <img src="SAGAR2" alt="Special Memory" class="photo-square">
+                <div class="shayari-text">
+                    Duniya Virat Kohli ko dekhkar uski fan ho jaati hai,<br>
+                    Aur main tumhe dekhkar apni poori duniya bhool jaati hoon. 🥹💗<br><br>
+                    Logon ke liye unki century sabse khaas hoti hai,<br>
+                    Par mere liye tumhari ek muskurahat hi meri jeet hoti hai. ❤️🧿
+                </div>
+            </div>
+            <button class="close-gift-btn" onclick="closeGiftModal(2)">Close & Back ❌</button>
+        </div>
+
+        <!-- Gift 3 Content -->
+        <div id="gift3Content" style="display:none; width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="hug-gift-container">
+                <div class="hug-title">🤗 Virtual Hug For You 🤗</div>
+                <div class="hug-video-box">
+                    <video id="videoGift3" autoplay muted playsinline>
+                        <source src="SAGAR3" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+            <button class="close-gift-btn" onclick="closeGiftModal(3)">Close & Back ❌</button>
+        </div>
+    </div>
+
+    <script>
+        let openedBoxes = { 1: false, 2: false, 3: false };
+        const modal = document.getElementById("giftModal");
+        const unboxingOverlay = document.getElementById("unboxingOverlay");
+        const finalBtn = document.getElementById("finalNextBtn");
+        let hugPlayCount = 0;
+
+        function openGift(boxNumber) {
+            // Show modal and reset unboxing overlay animation
+            modal.classList.add("show");
+            unboxingOverlay.classList.remove("hide");
+
+            // Hide all gift contents initially during unboxing animation
+            document.getElementById("gift1Content").style.display = "none";
+            document.getElementById("gift2Content").style.display = "none";
+            document.getElementById("gift3Content").style.display = "none";
+
+            // Mark box as opened visually (different shade)
+            openedBoxes[boxNumber] = true;
+            document.getElementById(`box${boxNumber}`).classList.add("opened");
+
+            // After 1.2 seconds, hide unboxing ribbon effect and show the actual gift
+            setTimeout(() => {
+                unboxingOverlay.classList.add("hide");
+
+                if (boxNumber === 1) {
+                    document.getElementById("gift1Content").style.display = "flex";
+                    const v1 = document.getElementById("videoGift1");
+                    v1.currentTime = 0;
+                    v1.play();
+                    v1.onended = () => { closeGiftModal(1); };
+                } else if (boxNumber === 2) {
+                    document.getElementById("gift2Content").style.display = "flex";
+                } else if (boxNumber === 3) {
+                    document.getElementById("gift3Content").style.display = "flex";
+                    const v3 = document.getElementById("videoGift3");
+                    v3.currentTime = 0;
+                    hugPlayCount = 0;
+                    v3.play();
+                    
+                    v3.onended = () => {
+                        hugPlayCount++;
+                        if (hugPlayCount < 3) {
+                            v3.currentTime = 0;
+                            v3.play();
+                        } else {
+                            v3.pause();
+                        }
+                    };
+                }
+            }, 1200);
+
+            checkAllOpened();
+        }
+
+        function closeGiftModal(boxNumber) {
+            modal.classList.remove("show");
+            if (boxNumber === 1) {
+                document.getElementById("videoGift1").pause();
+            } else if (boxNumber === 3) {
+                document.getElementById("videoGift3").pause();
+            }
+        }
+
+        function checkAllOpened() {
+            if (openedBoxes[1] && openedBoxes[2] && openedBoxes[3]) {
+                finalBtn.classList.add("show");
+            }
+        }
+
+        function goToNextPage() {
+            window.location.href = "index6.html";
+        }
+
+        // Dynamic Floating Hearts Generator for Background
+        function createHeart() {
+            const heartsBg = document.getElementById("heartsBg");
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            const size = Math.random() * 15 + 10;
+            heart.style.width = `${size}px`;
+            heart.style.height = `${size}px`;
+            heart.style.left = `${Math.random() * 100}vw`;
+            const duration = Math.random() * 4 + 3;
+            heart.style.animationDuration = `${duration}s`;
+            heartsBg.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, duration * 1000);
+        }
+        setInterval(createHeart, 350);
+    </script>
+</body>
+</html>
