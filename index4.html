@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 18th Birthday! ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- PHASE 1: Heading & Video --- */
+        .phase-1 {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: opacity 0.5s ease;
+            z-index: 5;
+        }
+
+        .phase-1 h1 {
+            color: #fff;
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            padding: 0 15px;
+        }
+
+        .video-box {
+            width: 240px;
+            height: 240px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            border: 3px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .video-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hidden {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            display: none !important;
+        }
+
+        /* --- PHASE 2: Bouncing Envelope --- */
+        .phase-2 {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes dropBounce {
+            0% { transform: translateY(-120vh) scale(0.8); opacity: 0; }
+            60% { transform: translateY(20px) scale(1); opacity: 1; }
+            80% { transform: translateY(-10px); }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .envelope-container {
+            width: 320px;
+            height: 220px;
+            background: #f4c2c2;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: dropBounce 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            border: 2px solid #e09f9f;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 110px solid #e09f9f;
+            transform-origin: top;
+            z-index: 3;
+        }
+
+        .tap-open-btn {
+            position: relative;
+            z-index: 4;
+            background: #ff3366;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .tap-open-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* --- PHASE 3: Warm Cream Letter with Typewriter --- */
+        .phase-3 {
+            position: absolute;
+            z-index: 15;
+            width: 90%;
+            max-width: 360px;
+            background: #fdf8ed; /* Warm cream paper color */
+            border-radius: 20px;
+            padding: 30px 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 2px solid #e6d7b8;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: scale(0);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .phase-3.show {
+            transform: scale(1);
+        }
+
+        .letter-content {
+            font-size: 1.4rem;
+            color: #4a3b32;
+            font-weight: 600;
+            min-height: 80px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        /* Blinking Cursor */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 22px;
+            background-color: #ff3366;
+            margin-left: 3px;
+            animation: blink 0.7s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: #fff;
+            border: none;
+            padding: 10px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease, transform 0.2s ease;
+        }
+
+        .next-btn.show-btn {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .next-btn:active {
+            transform: scale(0.95);
+        }
+
+        #confettiCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- Phase 1: Birthday Text & Looping Video with Mild Confetti -->
+    <div class="phase-1" id="phase1">
+        <h1>Happy 18th birthday babuuuuuu❤️🫂😚😚😚</h1>
+        <div class="video-box">
+            <video autoplay muted loop playsinfile>
+                <source src="SAGAR" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <!-- Phase 2: Bouncing Envelope -->
+    <div class="phase-2 hidden" id="phase2">
+        <div class="envelope-container">
+            <div class="envelope-flap"></div>
+            <button class="tap-open-btn" onclick="openEnvelope()">Tap to Open 💌</button>
+        </div>
+    </div>
+
+    <!-- Phase 3: Warm Cream Letter with Typewriter Effect -->
+    <div class="phase-3 hidden" id="phase3">
+        <div class="letter-content">
+            <span id="typedText"></span><span class="cursor" id="cursor"></span>
+        </div>
+        <button class="next-btn" id="nextBtn" onclick="goToNextPage()">Next ➔</button>
+    </div>
+
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        // Mild Confetti on Phase 1 load over the video
+        window.addEventListener('load', () => {
+            confetti({
+                particleCount: 40,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            // After 3 seconds, hide Phase 1 and show Phase 2 (Bouncing Envelope)
+            setTimeout(() => {
+                document.getElementById('phase1').classList.add('hidden');
+                document.getElementById('phase2').classList.remove('hidden');
+            }, 3000);
+        });
+
+        // When user taps "Tap to Open" on envelope
+        function openEnvelope() {
+            document.getElementById('phase2').classList.add('hidden');
+            const phase3 = document.getElementById('phase3');
+            phase3.classList.remove('hidden');
+            
+            // Small timeout to allow display block before CSS scale transition
+            setTimeout(() => {
+                phase3.classList.add('show');
+                startTypewriter();
+            }, 50);
+        }
+
+        // Typewriter Effect for "HI SAGAR"
+        const messageText = "HI SAGAR ❤️";
+        let charIndex = 0;
+        const typedTextSpan = document.getElementById('typedText');
+        const cursor = document.getElementById('cursor');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function startTypewriter() {
+            if (charIndex < messageText.length) {
+                typedTextSpan.textContent += messageText.charAt(charIndex);
+                charIndex++;
+                setTimeout(startTypewriter, 150); // Speed of typing per letter
+            } else {
+                // When typing finishes, hide cursor and show Next button
+                cursor.style.display = 'none';
+                nextBtn.classList.add('show-btn');
+            }
+        }
+
+        // Redirect to 5th page when Next is clicked
+        function goToNextPage() {
+            window.location.href = "index5.html";
+        }
+    </script>
+</body>
+</html>
