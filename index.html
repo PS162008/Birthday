@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Birthday Vault</title>
+    <!-- Google Fonts for cute typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background Floating Hearts Container */
+        .hearts-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -20px;
+            background-color: rgba(255, 255, 255, 0.6);
+            transform: rotate(-45deg);
+            animation: floatUp linear infinite;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: inherit;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -50%;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: 50%;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(-45deg) scale(0.6);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-105vh) rotate(-45deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Main Container with Glassmorphism */
+        .vault-container {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 25px;
+            border-radius: 24px;
+            width: 340px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Loop Video Frame */
+        .video-box {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 15px;
+            background: #000;
+        }
+
+        .video-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Entered Code Display Box */
+        .code-display {
+            width: 100%;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            letter-spacing: 6px;
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 15px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Wrong Code Shake Animation */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+            100% { transform: translateX(0); }
+        }
+
+        .shake {
+            animation: shake 0.4s ease-in-out;
+            border-color: #ff3b30 !important;
+        }
+
+        /* Numeric Keypad Grid */
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+        }
+
+        .key-btn {
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
+            height: 48px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .key-btn:active {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(0.95);
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.4);
+            font-size: 0.95rem;
+        }
+
+        .enter-btn {
+            background: rgba(46, 204, 113, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Hearts Animation Container -->
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <!-- Main Vault UI Box -->
+    <div class="vault-container" id="vaultBox">
+        <h2>Enter Secret Code</h2>
+
+        <!-- Loop Video Box -->
+        <div class="video-box">
+            <video autoplay muted loop playsinline>
+                <source src="teddy.gif.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Code Input Show Display -->
+        <div class="code-display" id="codeDisplay"></div>
+
+        <!-- Numeric Keypad -->
+        <div class="keypad">
+            <button class="key-btn" onclick="pressNum('1')">1</button>
+            <button class="key-btn" onclick="pressNum('2')">2</button>
+            <button class="key-btn" onclick="pressNum('3')">3</button>
+            <button class="key-btn" onclick="pressNum('4')">4</button>
+            <button class="key-btn" onclick="pressNum('5')">5</button>
+            <button class="key-btn" onclick="pressNum('6')">6</button>
+            <button class="key-btn" onclick="pressNum('7')">7</button>
+            <button class="key-btn" onclick="pressNum('8')">8</button>
+            <button class="key-btn" onclick="pressNum('9')">9</button>
+            <button class="key-btn action-btn" onclick="clearCode()">❌</button>
+            <button class="key-btn" onclick="pressNum('0')">0</button>
+            <button class="key-btn enter-btn" onclick="submitCode()">✔️</button>
+        </div>
+    </div>
+
+    <script>
+        let currentCode = "";
+        const correctCode = "292608";
+        const codeDisplay = document.getElementById("codeDisplay");
+        const vaultBox = document.getElementById("vaultBox");
+
+        // Number press function
+        function pressNum(num) {
+            if (currentCode.length < 6) {
+                currentCode += num;
+                updateDisplay();
+            }
+        }
+
+        // Cancel/Remove last digit function
+        function clearCode() {
+            currentCode = currentCode.slice(0, -1);
+            updateDisplay();
+        }
+
+        // Update screen display with masking (dots or numbers)
+        function updateDisplay() {
+            codeDisplay.innerText = currentCode;
+        }
+
+        // Submit & Validate Code
+        function submitCode() {
+            if (currentCode === correctCode) {
+                codeDisplay.style.borderColor = "#2ecc71";
+                vaultBox.style.transform = "scale(1.05)";
+                vaultBox.style.transition = "transform 0.3s ease";
+                
+                // Redirect to second page after a small cute delay
+                setTimeout(() => {
+                    window.location.href = "index2.html";
+                }, 500);
+            } else {
+                // Trigger Wrong Code Shake Effect
+                vaultBox.classList.add("shake");
+                setTimeout(() => {
+                    vaultBox.classList.remove("shake");
+                }, 400);
+                
+                // Clear input after wrong attempt
+                currentCode = "";
+                updateDisplay();
+            }
+        }
+
+        // Dynamic Floating Hearts Generator
+        function createHeart() {
+            const heartsBg = document.getElementById("heartsBg");
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+
+            // Random sizes, positions, and durations for natural look
+            const size = Math.random() * 15 + 10; // 10px to 25px
+            heart.style.width = `${size}px`;
+            heart.style.height = `${size}px`;
+            heart.style.left = `${Math.random() * 100}vw`;
+            
+            const duration = Math.random() * 4 + 3; // 3s to 7s
+            heart.style.animationDuration = `${duration}s`;
+
+            heartsBg.appendChild(heart);
+
+            // Remove heart element after animation ends to save memory
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        // Keep generating hearts continuously
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
+              
