@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Questions for You ❤️</title>
+    <!-- Aesthetic Cursive & Cute Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3, #ff9a9e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating Sparkles, Hearts & Loving Emojis Background */
+        .magic-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-item {
+            position: absolute;
+            bottom: -30px;
+            font-size: 1.5rem;
+            animation: floatUp linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+            20% { opacity: 0.9; }
+            100% { transform: translateY(-110vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        /* Card Stack Arena Container (Teen Patti Peek Effect) */
+        .deck-container {
+            position: relative;
+            z-index: 2;
+            width: 320px;
+            height: 420px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        /* Individual Teen Patti Style Card */
+        .question-card {
+            position: absolute;
+            width: 290px;
+            height: 380px;
+            background: #fffdf9; /* Warm luxury paper card look */
+            border: 3px solid #ffb6c1;
+            border-radius: 20px;
+            padding: 35px 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(255, 105, 180, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+            transform-origin: bottom center;
+        }
+
+        /* Teen Patti Stacking Offsets & Depths */
+        #card1 { z-index: 5; transform: translateY(0px) scale(1); }
+        #card2 { z-index: 4; transform: translateY(10px) scale(0.96); filter: brightness(0.97); }
+        #card3 { z-index: 3; transform: translateY(20px) scale(0.92); filter: brightness(0.94); }
+        #card4 { z-index: 2; transform: translateY(30px) scale(0.88); filter: brightness(0.91); }
+        #card5 { z-index: 1; transform: translateY(40px) scale(0.84); filter: brightness(0.88); }
+
+        /* Card Swipe Out Animation (Slide to Left & Tilt) */
+        .question-card.swiped-left {
+            transform: translateX(-120vw) rotate(-35deg) !important;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Card Header Badge / Number */
+        .card-badge {
+            background: #ff758c;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 5px 14px;
+            border-radius: 20px;
+            box-shadow: 0 3px 8px rgba(255, 117, 140, 0.4);
+            letter-spacing: 1px;
+        }
+
+        /* Question Text with Aesthetic Font & Rich Color */
+        .question-text {
+            font-family: 'Dancing Script', cursive;
+            color: #d63384; /* Rich Romantic Deep Pink */
+            font-size: 1.95rem;
+            font-weight: 700;
+            line-height: 1.35;
+            margin: auto 0;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        /* Swipe Instruction Hint at Bottom */
+        .swipe-hint {
+            color: #aaa;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            animation: pulseHint 1.5s infinite;
+        }
+
+        @keyframes pulseHint {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Sparkles, Hearts & Emojis Background -->
+    <div class="magic-bg" id="magicBg"></div>
+
+    <!-- Teen Patti Stacking Deck Container -->
+    <div class="deck-container" id="deckContainer">
+
+        <!-- Card 5 (Bottom most in stack) -->
+        <div class="question-card" id="card5" onclick="swipeCard(5)">
+            <div class="card-badge">Question 5 of 5</div>
+            <div class="question-text">What is the first thing you want to do now that you are 18?</div>
+            <div class="swipe-hint">Tap to finish ❤️</div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="question-card" id="card4" onclick="swipeCard(4)">
+            <div class="card-badge">Question 4 of 5</div>
+            <div class="question-text">What's one thing that makes me happy? 😁</div>
+            <div class="swipe-hint">Tap card to swipe ➡️</div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="question-card" id="card3" onclick="swipeCard(3)">
+            <div class="card-badge">Question 3 of 5</div>
+            <div class="question-text">What's your biggest insecurity?? And what's my biggest insecurity? 😅</div>
+            <div class="swipe-hint">Tap card to swipe ➡️</div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="question-card" id="card2" onclick="swipeCard(2)">
+            <div class="card-badge">Question 2 of 5</div>
+            <div class="question-text">What's the one thing you always want from me? 😅</div>
+            <div class="swipe-hint">Tap card to swipe ➡️</div>
+        </div>
+
+        <!-- Card 1 (Top most in stack) -->
+        <div class="question-card" id="card1" onclick="swipeCard(1)">
+            <div class="card-badge">Question 1 of 5</div>
+            <div class="question-text">What's your favourite memory with me? ✨</div>
+            <div class="swipe-hint">Tap card to swipe ➡️</div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentCardIndex = 1;
+        const totalCards = 5;
+
+        // Function to handle card swipe effect (Teen Patti deck mechanism)
+        function swipeCard(cardNum) {
+            if (cardNum !== currentCardIndex) return; // Only top active card can be swiped
+
+            const card = document.getElementById(`card${cardNum}`);
+            card.classList.add("swiped-left");
+
+            currentCardIndex++;
+
+            if (currentCardIndex <= totalCards) {
+                // Bring remaining cards forward in the deck stack view
+                shiftDeckStack();
+            } else {
+                // If 5th card is swiped, redirect directly to next page after a small smooth delay
+                setTimeout(() => {
+                    window.location.href = "index7.html";
+                }, 400);
+            }
+        }
+
+        // Adjust positions of remaining cards to mimic Teen Patti deck peek effect
+        function shiftDeckStack() {
+            for (let i = currentCardIndex; i <= totalCards; i++) {
+                const c = document.getElementById(`card${i}`);
+                let depth = i - currentCardIndex;
+                
+                c.style.zIndex = totalCards - depth;
+                c.style.transform = `translateY(${depth * 10}px) scale(${1 - (depth * 0.04)})`;
+                c.style.filter = `brightness(${1 - (depth * 0.03)})`;
+            }
+        }
+
+        // Floating Sparkles, Hearts & Emojis Generator
+        const emojis = ['💖', '✨', '🥺', '🫂', '💗', '⭐', '🥰', '💫'];
+        function createMagicElement() {
+            const magicBg = document.getElementById("magicBg");
+            const item = document.createElement("div");
+            item.classList.add("floating-item");
+            
+            item.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            item.style.left = `${Math.random() * 100}vw`;
+            const size = Math.random() * 15 + 15;
+            item.style.fontSize = `${size}px`;
+            
+            const duration = Math.random() * 4 + 4;
+            item.style.animationDuration = `${duration}s`;
+
+            magicBg.appendChild(item);
+
+            setTimeout(() => {
+                item.remove();
+            }, duration * 1000);
+        }
+
+        setInterval(createMagicElement, 300);
+    </script>
+</body>
+</html>
