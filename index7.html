@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Magical Memories ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3, #ff9a9e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Flashlight Effect Overlay */
+        .flash-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #fff;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .flash-overlay.active {
+            opacity: 1;
+        }
+
+        /* Cute Cartoon Pink Camera Styling */
+        .camera-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            animation: cameraShake 1.5s infinite ease-in-out;
+        }
+
+        @keyframes cameraShake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            20% { transform: translate(-4px, 4px) rotate(-2deg); }
+            40% { transform: translate(4px, -4px) rotate(2deg); }
+            60% { transform: translate(-2px, 2px) rotate(-1deg); }
+            80% { transform: translate(2px, -2px) rotate(1deg); }
+        }
+
+        .camera-container:hover {
+            transform: scale(1.08);
+        }
+
+        /* Cartoon Pink Camera Body */
+        .cartoon-camera {
+            width: 160px;
+            height: 120px;
+            background: #ff6b81;
+            border-radius: 24px;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+            border: 4px solid #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .camera-top {
+            position: absolute;
+            top: -16px;
+            left: 45px;
+            width: 70px;
+            height: 16px;
+            background: #ff4757;
+            border-radius: 8px 8px 0 0;
+            border: 3px solid #fff;
+            border-bottom: none;
+        }
+
+        .camera-lens {
+            width: 65px;
+            height: 65px;
+            background: #2f3542;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .lens-inner {
+            width: 25px;
+            height: 25px;
+            background: #70a1ff;
+            border-radius: 50%;
+            border: 3px solid #dfe4ea;
+        }
+
+        .camera-flash {
+            position: absolute;
+            top: 15px;
+            right: 18px;
+            width: 18px;
+            height: 18px;
+            background: #ffa502;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 0 10px #ffa502;
+        }
+
+        .camera-text {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 15px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Heart Collage Container */
+        .collage-container {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .collage-container.show {
+            display: flex;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Heart Collage Image Styling */
+        .heart-collage-img {
+            width: 300px;
+            max-width: 85vw;
+            height: auto;
+            border-radius: 20px;
+            border: 4px solid #fff;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+            animation: gentleFloat 3s infinite ease-in-out;
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Bottom-Right Next Page Button */
+        .next-page-btn {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4);
+            display: none;
+            animation: pulseBtn 1.5s infinite;
+        }
+
+        .next-page-btn.show {
+            display: block;
+        }
+
+        @keyframes pulseBtn {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Flashlight Overlay -->
+    <div class="flash-overlay" id="flashOverlay"></div>
+
+    <!-- Step 1: Cartoon Pink Camera View -->
+    <div class="camera-container" id="cameraBox" onclick="clickCamera()">
+        <div class="cartoon-camera">
+            <div class="camera-top"></div>
+            <div class="camera-flash"></div>
+            <div class="camera-lens">
+                <div class="lens-inner"></div>
+            </div>
+        </div>
+        <div class="camera-text">Tap to click our memories! 📸✨</div>
+    </div>
+
+    <!-- Step 2: Heart Collage View -->
+    <div class="collage-container" id="collageContainer">
+        <!-- Yahan apni banayi hui heart collage image ka naam daal dena (jaise: heart-collage.jpg) -->
+        <img src="heart-collage.jpg" alt="Our Heart Memories" class="heart-collage-img">
+    </div>
+
+    <!-- Bottom Right Next Page Button -->
+    <button class="next-page-btn" id="nextPageBtn" onclick="goToNext()">Next ➡️</button>
+
+    <!-- Audio Elements -->
+    <audio id="shutterAudio" src="https://www.soundjay.com/mechanical/camera-shutter-click-01.mp3" preload="auto"></audio>
+    <audio id="bgSong" src="song.mp3" preload="auto" loop></audio>
+
+    <script>
+        function clickCamera() {
+            const flash = document.getElementById("flashOverlay");
+            const cameraBox = document.getElementById("cameraBox");
+            const collageContainer = document.getElementById("collageContainer");
+            const nextPageBtn = document.getElementById("nextPageBtn");
+            const shutterAudio = document.getElementById("shutterAudio");
+            const bgSong = document.getElementById("bgSong");
+
+            // Play Camera Shutter Sound
+            try {
+                shutterAudio.currentTime = 0;
+                shutterAudio.play();
+            } catch (e) {
+                console.log("Audio play blocked");
+            }
+
+            // Trigger Flashlight Effect
+            flash.classList.add("active");
+
+            setTimeout(() => {
+                flash.classList.remove("active");
+                // Hide camera
+                cameraBox.style.display = "none";
+                // Show Heart Collage smoothly
+                collageContainer.classList.add("show");
+                
+                // Play Background Song
+                try {
+                    bgSong.currentTime = 0;
+                    bgSong.play();
+                } catch (e) {
+                    console.log("Bg song play blocked");
+                }
+
+                // Show Bottom-Right Next Button
+                nextPageBtn.classList.add("show");
+
+            }, 350);
+        }
+
+        function goToNext() {
+            const bgSong = document.getElementById("bgSong");
+            bgSong.pause();
+            window.location.href = "index8.html";
+        }
+    </script>
+</body>
+</html>
