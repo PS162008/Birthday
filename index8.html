@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forever With You ❤️</title>
+    <!-- Aesthetic Cursive & Cute Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3, #ff9a9e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating Sparkles & Hearts Background */
+        .magic-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-item {
+            position: absolute;
+            bottom: -30px;
+            font-size: 1.5rem;
+            animation: floatUp linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+            20% { opacity: 0.9; }
+            100% { transform: translateY(-110vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        /* Screen Stages Container */
+        .stage {
+            position: absolute;
+            z-index: 10;
+            width: 90%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            transform: scale(0.95);
+        }
+
+        .stage.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        /* Stage 1: Wish Message + Photo (Visible for 5 seconds) */
+        .wish-text {
+            font-family: 'Dancing Script', cursive;
+            color: #fff;
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.35;
+            margin-bottom: 20px;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        .final-photo {
+            width: 260px;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 4px solid #fff;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Stage 2: Loop Video Container */
+        .final-video-box {
+            width: 260px;
+            height: 320px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 4px solid #fff;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            background: #000;
+        }
+
+        .final-video-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Stage 3: Final Sweet Message */
+        .final-love-msg {
+            font-family: 'Dancing Script', cursive;
+            color: #fff;
+            font-size: 2.4rem;
+            font-weight: 700;
+            line-height: 1.4;
+            text-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+            animation: pulseText 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Sparkles & Hearts Background -->
+    <div class="magic-bg" id="magicBg"></div>
+
+    <!-- Stage 1: Wish Message & Photo (5 Seconds) -->
+    <div class="stage active" id="stage1">
+        <div class="wish-text">May whatever you wished for come true.<br>I am always with you.. ❤️🫂</div>
+        <!-- Yahan apni final photo ka naam daal dena (jaise: final-photo.jpg) -->
+        <img src="final-photo.jpg" alt="Special Memory" class="final-photo">
+    </div>
+
+    <!-- Stage 2: Loop Video Section -->
+    <div class="stage" id="stage2">
+        <div class="final-video-box">
+            <!-- Yahan apni final loop video ka naam daal dena (jaise: final-video.mp4) -->
+            <video autoplay muted loop playsinline>
+                <source src="final-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <!-- Stage 3: Final Love Message -->
+    <div class="stage" id="stage3">
+        <div class="final-love-msg">
+            I love uhhh mera babyyy...<br>
+            & your bunnyyy loves you soo muchhh..<br>
+            😚😚😚😚😚😚🫂🫂
+        </div>
+    </div>
+
+    <script>
+        // Flow Control: Stage 1 -> 5 seconds -> Stage 2 -> 6 seconds -> Stage 3
+        setTimeout(() => {
+            document.getElementById("stage1").classList.remove("active");
+            document.getElementById("stage2").classList.add("active");
+
+            // After stage 2 plays for 6 seconds, transition to Stage 3 (Final love message)
+            setTimeout(() => {
+                document.getElementById("stage2").classList.remove("active");
+                document.getElementById("stage3").classList.add("active");
+            }, 6000);
+
+        }, 5000);
+
+        // Floating Sparkles & Hearts Generator
+        const emojis = ['💖', '✨', '🥺', '🫂', '💗', '⭐', '🥰', '💫'];
+        function createMagicElement() {
+            const magicBg = document.getElementById("magicBg");
+            const item = document.createElement("div");
+            item.classList.add("floating-item");
+            
+            item.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            item.style.left = `${Math.random() * 100}vw`;
+            const size = Math.random() * 15 + 15;
+            item.style.fontSize = `${size}px`;
+            
+            const duration = Math.random() * 4 + 4;
+            item.style.animationDuration = `${duration}s`;
+
+            magicBg.appendChild(item);
+
+            setTimeout(() => {
+                item.remove();
+            }, duration * 1000);
+        }
+
+        setInterval(createMagicElement, 300);
+    </script>
+</body>
+</html>
+
